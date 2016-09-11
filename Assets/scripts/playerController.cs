@@ -3,6 +3,10 @@ using System.Collections;
 
 public class playerController : MonoBehaviour {
 
+	//inja migim mogheye shoroo bazi harkat nakon khodkar
+	bool isStarted = false;
+
+
 	Rigidbody rigid;
 
 	// vaghti meghdari public tarif beshe az to khode unity Mishe taghiresh dad
@@ -17,11 +21,16 @@ public class playerController : MonoBehaviour {
 	
 	// Update is called once per frame = 70 bar dar saniye
 	void Update () {
-
+		// dar in code migim vaghti dokmeye bala ro feshar dad code haye zir ejra shan.
+		if (Input.GetKeyDown (KeyCode.UpArrow) && !isStarted){
+			isStarted = true;
+			DoJump ();
+		}
 
 		// Input = hameye voroodi ha dar Inputhastand
 		// dar code zir meghdar harkat be chap va rast ra dar dir gharar midahim
 		float dir = Input.GetAxisRaw("Horizontal");
+
 
 		/* vaghti player be chap harkat konad meghdar dir manfi va vaghti be rast beravad mosbat mishavad
 		 * dar code zir migooyim be chap va rast harkat kon
@@ -31,24 +40,32 @@ public class playerController : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider col){
+		
 		// OnTriggerEnter yani vaghti be triger zarbe khord...
 		// veghti khord zamin mire bala dobare
 
+		if(!isStarted)
+			return;
+
 		// dar sharte zir migooyim vaghti ve zamin barkhord kar ...
 		if (col.name == "ground") {
-			//meghdare avaliye niroye trigger ra 0 mikone
-			// har amali yek aksolamali dare
-			//vaghti mikhad bere bala ye feshar be pain ham dare...
-			rigid.velocity = Vector3.zero;
-
-			//AddForce barayande niroo ra hesab mikonad
-			// nirooyi ke be samte paiin dashtim miad balasho ham hesab mikone
-			rigid.AddForce (Vector3.up * jump);
+			DoJump();
+		}else if(col.name=="coin"){
+			DoJump ();
+			Destroy (col.gameObject);
+			// TODO: add coin counter
 		}
 	}
 	
-
-
-
+	void DoJump(){
+		
+		//meghdare avaliye niroye trigger ra 0 mikone
+		// har amali yek aksolamali dare
+		//vaghti mikhad bere bala ye feshar be pain ham dare...
+		rigid.velocity = Vector3.zero;
+		
+		//AddForce barayande niroo ra hesab mikonad
+		// nirooyi ke be samte paiin dashtim miad balasho ham hesab mikone
+		rigid.AddForce (Vector3.up * jump);
+	}
 }
-
