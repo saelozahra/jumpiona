@@ -3,6 +3,9 @@ using System.Collections;
 
 public class playerController : MonoBehaviour
 {
+	// dar inja yek singleTune az class baraye dastrasi rahat tar behesh tarif kardim 
+	// va dar bakhshe awake meghdar dadim
+	public static playerController ins ;
 
 	//inja migim mogheye shoroo bazi harkat nakon khodkar
 	bool isStarted = false;
@@ -24,7 +27,14 @@ public class playerController : MonoBehaviour
 		// maxDepenetrationVelocity baraye velocity max moshakhas mikone
 		rigid.maxDepenetrationVelocity = jump * 1.1f;
 	}
+
 	
+	void Awake ()
+	{
+		// inja ins ro barabare in class gharar dadim
+		ins = this;
+	}
+
 	// Update is called once per frame = 70 bar dar saniye
 	void Update ()
 	{
@@ -38,8 +48,8 @@ public class playerController : MonoBehaviour
 		}
 
 
-		if (transform.position.x > Camera.main.GetComponent<CameraController> ().Right ()
-			|| transform.position.x < Camera.main.GetComponent<CameraController> ().Left ())
+		if (transform.position.x > CameraController.ins.Right ()
+			|| transform.position.x < CameraController.ins.Left ())
 			transform.position = new Vector3 (-transform.position.x + Mathf.Sign (transform.position.x),
 			                                  transform.position.y,
 			                                  transform.position.z);
@@ -76,9 +86,12 @@ public class playerController : MonoBehaviour
 			DoJump (jump);
 		} else if (col.tag == "coin") {
 			// yek laye va tage jadid be name coin ijad kardim va be coin ha nesbat dadim va inja be jaye rooydade name farakhani kardim
-			DoJump (jump / 1.05f);
+
 			Destroy (col.gameObject);
-			// TODO: add coin counter
+			DoJump (jump / 1.05f);
+
+			GameController.ins.AddCoin (col.GetComponent<Coin> ().value);
+			col.GetComponent<Coin> ().DeleteCoins ();
 
 		}
 	}

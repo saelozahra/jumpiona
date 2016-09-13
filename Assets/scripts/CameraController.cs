@@ -10,8 +10,9 @@ public class CameraController : MonoBehaviour
 	 */
 	[HideInInspector]
 	float
-		top, maxY;
+		top, maxY, maxDownMove = 20;
 
+	public static CameraController ins ;
 	public Transform target;
 	public float distance = 1, speed = 10;
 	Rigidbody targetRigid;
@@ -22,11 +23,9 @@ public class CameraController : MonoBehaviour
 	}
 
 	
-	void Update ()
+	void Awake ()
 	{
-		/*
-	 */
-
+		ins = this;
 	}
 
 
@@ -67,7 +66,7 @@ public class CameraController : MonoBehaviour
 
 		// inja migim ke doorbin az in mahdoode kharej nashe
 		transform.position = new Vector3 (transform.position.x,
-		                                  Mathf.Clamp (transform.position.y, 0, Mathf.Infinity),
+		                                  Mathf.Clamp (transform.position.y, maxY - maxDownMove, Mathf.Infinity),
 		                                  transform.position.z);
 
 	}
@@ -80,9 +79,10 @@ public class CameraController : MonoBehaviour
 		return top;
 	}
 	
-	public float Down ()
-	{
-		return GetComponent<Camera> ().ViewportToWorldPoint (Vector3.zero).y;
+	public float Down {
+		get {
+			return GetComponent<Camera> ().ViewportToWorldPoint (Vector3.zero).y;
+		}
 	}
 	
 	public float Right ()
