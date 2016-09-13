@@ -20,7 +20,8 @@ public class Coin : MonoBehaviour
 	
 	public void DeleteCoins ()
 	{
-		Instantiate (deathParticle, transform.position, transform.rotation);
+		GameObject g = Instantiate (deathParticle, transform.position, transform.rotation) as GameObject;
+		Destroy (g, g.GetComponent<ParticleSystem> ().duration);
 		Destroy (gameObject);
 	}
 }
