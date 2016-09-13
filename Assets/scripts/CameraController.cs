@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
 	 */
 	[HideInInspector]
 	float
-		top;
+		top, maxY;
 
 	public Transform target;
 	public float distance = 1, speed = 10;
@@ -61,6 +61,15 @@ public class CameraController : MonoBehaviour
 		transform.position = new Vector3 (transform.position.x,
 		                                 Mathf.Clamp (transform.position.y, 0, Mathf.Infinity),
 		                                 transform.position.z);
+
+		// maxY ? transform.position.y : maxY ; = yek nou shart if hast ke kamtar ja migire
+		maxY = transform.position.y > maxY ? transform.position.y : maxY;
+
+		// inja migim ke doorbin az in mahdoode kharej nashe
+		transform.position = new Vector3 (transform.position.x,
+		                                  Mathf.Clamp (transform.position.y, 0, Mathf.Infinity),
+		                                  transform.position.z);
+
 	}
 
 	
@@ -74,5 +83,14 @@ public class CameraController : MonoBehaviour
 	public float Down ()
 	{
 		return GetComponent<Camera> ().ViewportToWorldPoint (Vector3.zero).y;
+	}
+	
+	public float Right ()
+	{
+		return GetComponent<Camera> ().ViewportToWorldPoint (Vector3.right).x;
+	}
+	public float Left ()
+	{
+		return GetComponent<Camera> ().ViewportToWorldPoint (Vector3.zero).x;
 	}
 }

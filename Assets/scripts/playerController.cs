@@ -14,7 +14,7 @@ public class playerController : MonoBehaviour
 	// vaghti meghdari public tarif beshe az to khode unity Mishe taghiresh dad
 	//jump = mizane shedate paresh
 
-	public float jump = 10, moveSpeed = 50, counter = 0;
+	public float jump = 10, moveSpeed = 50, maxSpeed = 100;
 
 	// Use this for initialization
 	void Start ()
@@ -37,6 +37,17 @@ public class playerController : MonoBehaviour
 			DoJump (jump * 2);
 		}
 
+
+		if (transform.position.x > Camera.main.GetComponent<CameraController> ().Right ()
+			|| transform.position.x < Camera.main.GetComponent<CameraController> ().Left ())
+			transform.position = new Vector3 (-transform.position.x + Mathf.Sign (transform.position.x),
+			                                  transform.position.y,
+			                                  transform.position.z);
+
+
+
+
+
 		// Input = hameye voroodi ha dar Inputhastand
 		// dar code zir meghdar harkat be chap va rast ra dar dir gharar midahim
 		dir = Input.GetAxisRaw ("Horizontal");
@@ -46,6 +57,8 @@ public class playerController : MonoBehaviour
 		 * dar code zir migooyim be chap va rast harkat kon
 		 */
 		rigid.AddForce (Vector3.right * dir * moveSpeed);
+		//velocity barayande nirooye jesm ast va dar inja nirooye jahate jesm ra bar migardanad
+		rigid.velocity = new Vector3 (Mathf.Clamp (rigid.velocity.x, -maxSpeed, maxSpeed), rigid.velocity.y, 0);
 
 	}
 	
@@ -66,7 +79,6 @@ public class playerController : MonoBehaviour
 			DoJump (jump / 1.05f);
 			Destroy (col.gameObject);
 			// TODO: add coin counter
-			counter = counter + 1;
 
 		}
 	}
