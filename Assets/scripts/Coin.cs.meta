@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 242c2c7e717d3764699b7fced50c0839
-timeCreated: 1473754040
+timeCreated: 1473799401
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - deathParticle: {fileID: 143708, guid: 00bd75d6b164b9c49830ba6c7e5c746c, type: 2}
+  - coinSound: {fileID: 136828, guid: 60a02e2099485524d8555d17eb2d1886, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
